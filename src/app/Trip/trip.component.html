@@ -1,0 +1,39 @@
+<mat-card class="trip">
+    <mat-card-header class="trip-title">
+        <div class="country-name">{{trip.originPlace.countryName}}</div>
+        <div class="place-display">{{dataDisplayService.getPlaceDisplay(trip.originPlace)}} </div>
+        <mat-icon color="accent" class="arrow-right-icon">arrow_right_alt</mat-icon>
+        <div class="country-name">{{trip.destinationPlace.countryName}}</div>
+        <div class="place-display"> {{dataDisplayService.getPlaceDisplay(trip.destinationPlace)}}</div>
+        <div class="trips-dates-display">
+            {{dataDisplayService.getDateRangeDispaly(trip.outboundDate, trip.inboundDate)}}
+        </div>
+    </mat-card-header>
+    <div class="card-content">
+        <div class="accordion-container">
+            <mat-accordion>
+                <mat-expansion-panel class="flight-option">
+                    <mat-expansion-panel-header>
+                        <app-flight-option-header class="flight-option-header" [flightOption]="trip.outbound"
+                            [isOutbound]="true"></app-flight-option-header>
+                    </mat-expansion-panel-header>
+                    <app-flight-option-details [flightOption]="trip.outbound"></app-flight-option-details>
+                </mat-expansion-panel>
+                <mat-expansion-panel class="flight-option" *ngIf="trip.inbound">
+                    <mat-expansion-panel-header>
+                        <app-flight-option-header class="flight-option-header" [flightOption]="trip.inbound"
+                            [isOutbound]="false"></app-flight-option-header>
+                    </mat-expansion-panel-header>
+                    <app-flight-option-details [flightOption]="trip.inbound"></app-flight-option-details>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div class="select-price-container">
+            <div>{{trip.lowestPriceAgent.Name}}</div>
+            <div color="accent">{{trip.lowestPriceAgent.price}}$</div>
+            <button (click)="selectAgent(trip.lowestPriceAgent)" mat-raised-button color="primary">Select
+                <mat-icon>done</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card>

@@ -1,0 +1,47 @@
+.trip{
+    margin-bottom: 20px;
+}
+
+.trip-title{
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.flight-option-header{
+    width: 95%;
+}
+
+.card-content{
+    display: flex;
+}
+
+.accordion-container{
+    flex-grow: 1;
+}
+
+.select-price-container{
+    margin: 0 14px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.country-name{
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.place-display{
+    font-size: 14px;
+    color:#737171;
+}
+
+.arrow-right-icon{
+    margin: 0 7px;
+}
+
+.trips-dates-display{
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+}

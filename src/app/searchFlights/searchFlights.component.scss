@@ -1,0 +1,176 @@
+.main-page{
+    width: 100%;
+    margin: auto;
+    margin-top: 50px;
+
+    .form-first-row{
+        display: flex;
+        justify-content: space-between;
+        height: 55px;
+        margin-bottom: 20px; 
+    }
+
+    .passengers-select{
+        width: 70px;
+    }
+
+.form-card{
+    width: 850px;
+    margin-bottom: 20px;
+    margin-left: 200px;
+
+    .form-container{
+        .search-form{
+            margin-bottom: 5px;
+        }
+
+        .date-picker-field{
+            width: 165px;
+        }
+        
+        .search-button-div{
+            text-align: center;
+        }
+        
+        .radio-button-field{
+            margin-right: 40px;
+        }
+        
+        .autocomplete-field{
+            width:160px;;
+        }
+        
+        .airport-id{
+            font-weight: bold;
+        }
+    }}
+}
+
+.is-loading ::ng-deep .mat-option-text {
+    display: flex;
+    justify-content: center;
+  }
+
+  .form-fields{
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    margin-bottom: 20px;
+  }
+
+  .results-content{
+      display: flex;
+  }
+  .results-container{
+      width: 850px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 30px;
+    transition: 1s linear; 
+  }
+
+  .options-container{
+      display: flex;
+  }
+
+  .search-by-container{
+      margin-left: 15px;
+      margin-right: 10px;
+  }
+  .search-by-title{
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.search-by-button{
+  font-size: 14px;
+  height: 28px;
+  align-items: center;
+}
+
+.outbound-date{
+    margin-right: 15px;
+}
+
+.dates-container{
+    width: 350px;
+}
+
+.days-off-display{
+    width: 75px;
+}
+
+.mat-button-toggle-checked {
+    background-color: #00b8d44a;
+}
+
+.dates-container > div{
+    display: flex;
+    justify-content: center;
+}
+
+.filters-display, .space-div{
+    width: 181px;
+    margin: 0 10px;
+}
+
+.mat-slider-track-fill {
+    background-color: #b0b0b0 !important;
+}
+
+.slider-display{
+    width: 300px;
+}
+
+.slider-display .mat-slider-thumb{
+    box-shadow: 0 0 15px #ad1457;
+    background-color: #ad1457 !important;
+    border-color: #ad1457 !important;
+}
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ad1457;
+    font-weight: bold;
+}
+
+.autocomplete-place-name{
+    line-height: normal;
+    white-space: normal;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.autocomplete-country-name{
+    line-height: normal;
+    font-size: 14px;
+    color: gray;
+}
+
+.autocomplete-option{
+    height: 55px;
+}
+
+.filter-expander{
+    margin-bottom: 10px;
+}
+
+.price-slider-display{
+    width: 160px;
+    left: -8px;
+}
+
+.checkbox-container{
+    display: grid;
+}
+
+.checkbox-hours{
+    font-size: 10px;
+    color: gray;
+}
+
+.example-tooltip-red {
+    background: #b71c1c;
+  }

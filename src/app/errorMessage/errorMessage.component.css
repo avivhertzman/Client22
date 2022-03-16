@@ -1,0 +1,10 @@
+.error-message{
+    text-align: center;
+}
+.error-message h1{
+    color: firebrick;
+}
+
+.error-icon{
+    font-size: 28px; 
+}

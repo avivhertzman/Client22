@@ -1,0 +1,14 @@
+
+.no-results{
+    text-align: center;
+}
+
+.no-results .header{
+    display: flex;
+    justify-content: center;
+}
+
+.sad-icon{
+    margin-top: 7px;
+    margin-left: 5px;
+}
