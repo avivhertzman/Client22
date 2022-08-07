@@ -13,7 +13,7 @@ export class FlightComponent {
   constructor(private dataDisplayService: DataDisplayService) {
   }
 
-  displayFn(place: Place) {
-    return place ? place.placeName + ' (' + place.airportId + ')' : place;
+  displayFn(place: any) {
+    return place ? place.name + ' (' + place.cityId + ')' : place;
   }
 }

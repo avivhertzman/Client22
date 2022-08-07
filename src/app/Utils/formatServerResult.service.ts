@@ -11,7 +11,11 @@ export class FormatServerResultService {
 
     getTripsFromServerResult(results: any[]): Trip[] {
         results.forEach((trip) => {
-            trip.lowestPriceAgent = trip.agents.sort((a, b) => (a.price) - (b.price))[0];
+            
+            trip.originPlace = JSON.parse(trip.originPlace);
+            trip.destinationPlace = JSON.parse(trip.destinationPlace);
+
+            trip.lowestPriceAgent = {'price':trip.Price};
 
             trip.outbound.arrive = this.setDateValue(trip.outbound.arrive);
             trip.outbound.departure = this.setDateValue(trip.outbound.departure);

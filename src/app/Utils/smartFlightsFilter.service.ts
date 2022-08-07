@@ -25,13 +25,13 @@ export class SmartFlightsFilterService {
     return sortedTrips.slice(0, maxNumberOfResults);
   }
   private calcNumOfStops(trip: Trip): number {
-    return trip.outbound.flights.length + (trip.inbound === null ? 0 : trip.inbound.flights.length);
+    return trip.outbound.flights.length + (trip.inbound === undefined ? 0 : trip.inbound.flights.length);
   }
   private calcPrice(trip: Trip): number {
     return trip.lowestPriceAgent.price;
   }
   private calcTripLength(trip: Trip): number {
-    return trip.outbound.duration + (trip.inbound === null ? 0 : trip.inbound.duration);
+    return trip.outbound.duration + (trip.inbound === undefined ? 0 : trip.inbound.duration);
   }
 
   private setTripsScoresByParam(tripScores: TripScores[], param: QualityParam): void {

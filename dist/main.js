@@ -411,7 +411,7 @@ var FormatServerResultService = /** @class */ (function () {
     FormatServerResultService.prototype.getTripsFromServerResult = function (results) {
         var _this = this;
         results.forEach(function (trip) {
-            trip.lowestPriceAgent = trip.agents.sort(function (a, b) { return (a.price) - (b.price); })[0];
+            trip.lowestPriceAgent = {'price':trip.Price};
             trip.outbound.arrive = _this.setDateValue(trip.outbound.arrive);
             trip.outbound.departure = _this.setDateValue(trip.outbound.departure);
             trip.outbound.daysDiff = _this.dataDisplayService.getDatesDiffreceInDays(trip.outbound.departure, trip.outbound.arrive);
@@ -497,13 +497,13 @@ var SmartFlightsFilterService = /** @class */ (function () {
         return sortedTrips.slice(0, maxNumberOfResults);
     };
     SmartFlightsFilterService.prototype.calcNumOfStops = function (trip) {
-        return trip.outbound.flights.length + (trip.inbound === null ? 0 : trip.inbound.flights.length);
+        return trip.outbound.flights.length + (trip.inbound === undefined ? 0 : trip.inbound.flights.length);
     };
     SmartFlightsFilterService.prototype.calcPrice = function (trip) {
         return trip.lowestPriceAgent.price;
     };
     SmartFlightsFilterService.prototype.calcTripLength = function (trip) {
-        return trip.outbound.duration + (trip.inbound === null ? 0 : trip.inbound.duration);
+        return trip.outbound.duration + (trip.inbound === undefined ? 0 : trip.inbound.duration);
     };
     SmartFlightsFilterService.prototype.setTripsScoresByParam = function (tripScores, param) {
         var _this = this;

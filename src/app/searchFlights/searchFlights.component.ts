@@ -221,7 +221,7 @@ export class SearchFlightsComponent {
     departureDate = this.addHoursToDate(departureDate, 3);
     returnDate = this.addHoursToDate(returnDate, 3);
 
-    const param = new HttpParams()
+    const body = new HttpParams()
       .append('outboundDate', departureDate ? departureDate.toISOString() : null)
       .append('inboundDate', returnDate ? returnDate.toISOString() : null)
       .append('originPlace', JSON.stringify(this.whereFrom.value))
@@ -229,7 +229,8 @@ export class SearchFlightsComponent {
       .append('people', this.numberOfPassengers.toString())
       .append('oneWay', this.isOneWay().toString());
 
-    return this.http.post<any[]>(this.baseUrl + 'api/SkyScanner/flights', param);
+    //return this.http.post<any[]>(this.baseUrl + 'api/SkyScanner/flights', param);
+    return this.http.post<any[]>('http://localhost:8000/' + 'api/AmadeusController/GetFlights', body);
   }
 
   onError(error) {
