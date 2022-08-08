@@ -2,6 +2,9 @@
   <mat-toolbar color="primary">
     <div class="logo-img"></div>
     <span class="toolbar-spacer"></span>
+    <button *ngIf="readLocalStorageValue('user')" (click)="Logout()">Logout</button>
   </mat-toolbar>
-  <app-search-flights></app-search-flights>
+  <app-search-flights *ngIf="readLocalStorageValue('user')"></app-search-flights>
+  <app-user *ngIf="!readLocalStorageValue('user') && (readLocalStorageValue('register')==='false' || !readLocalStorageValue('register'))"></app-user>
+  <app-register *ngIf="!readLocalStorageValue('user') && readLocalStorageValue('register')==='true'"></app-register>
 </body>

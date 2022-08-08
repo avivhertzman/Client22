@@ -7,6 +7,8 @@ import { SatNativeDateModule, SatDatepickerModule } from 'saturn-datepicker';
 
 import { AppComponent } from './app.component';
 import { SearchFlightsComponent } from './searchFlights/searchFlights.component';
+import { UserComponent } from './user/user.component';
+import { RegisterComponent } from './user/register.component';
 import { FlightsResultsComponent } from './flightsResults/flightsResults.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,6 +55,8 @@ export class AngularMaterialModule { }
   declarations: [
     AppComponent,
     SearchFlightsComponent,
+    UserComponent,
+    RegisterComponent,
     FlightsResultsComponent,
     TripComponent,
     FlightComponent,
