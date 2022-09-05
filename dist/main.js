@@ -41,7 +41,7 @@ module.exports = ".trip{\r\n    margin-bottom: 20px;\r\n}\r\n\r\n.trip-title{\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card class=\"trip\">\r\n    <mat-card-header class=\"trip-title\">\r\n        <div class=\"country-name\">{{trip.originPlace.countryName}}</div>\r\n        <div class=\"place-display\">{{dataDisplayService.getPlaceDisplay(trip.originPlace)}} </div>\r\n        <mat-icon color=\"accent\" class=\"arrow-right-icon\">arrow_right_alt</mat-icon>\r\n        <div class=\"country-name\">{{trip.destinationPlace.countryName}}</div>\r\n        <div class=\"place-display\"> {{dataDisplayService.getPlaceDisplay(trip.destinationPlace)}}</div>\r\n        <div class=\"trips-dates-display\">\r\n            {{dataDisplayService.getDateRangeDispaly(trip.outboundDate, trip.inboundDate)}}\r\n        </div>\r\n    </mat-card-header>\r\n    <div class=\"card-content\">\r\n        <div class=\"accordion-container\">\r\n            <mat-accordion>\r\n                <mat-expansion-panel class=\"flight-option\">\r\n                    <mat-expansion-panel-header>\r\n                        <app-flight-option-header class=\"flight-option-header\" [flightOption]=\"trip.outbound\"\r\n                            [isOutbound]=\"true\"></app-flight-option-header>\r\n                    </mat-expansion-panel-header>\r\n                    <app-flight-option-details [flightOption]=\"trip.outbound\"></app-flight-option-details>\r\n                </mat-expansion-panel>\r\n                <mat-expansion-panel class=\"flight-option\" *ngIf=\"trip.inbound\">\r\n                    <mat-expansion-panel-header>\r\n                        <app-flight-option-header class=\"flight-option-header\" [flightOption]=\"trip.inbound\"\r\n                            [isOutbound]=\"false\"></app-flight-option-header>\r\n                    </mat-expansion-panel-header>\r\n                    <app-flight-option-details [flightOption]=\"trip.inbound\"></app-flight-option-details>\r\n                </mat-expansion-panel>\r\n            </mat-accordion>\r\n        </div>\r\n        <div class=\"select-price-container\">\r\n            <div>{{trip.lowestPriceAgent.Name}}</div>\r\n            <div color=\"accent\">{{trip.lowestPriceAgent.price}}$</div>\r\n            <button (click)=\"selectAgent(trip.lowestPriceAgent)\" mat-raised-button color=\"primary\">Select\r\n                <mat-icon>done</mat-icon>\r\n            </button>\r\n        </div>\r\n    </div>\r\n</mat-card>"
+module.exports = "<mat-card class=\"trip\">\r\n    <mat-card-header class=\"trip-title\">\r\n        <div class=\"country-name\">{{trip.originPlace.countryName}}</div>\r\n        <div class=\"place-display\">{{dataDisplayService.getPlaceDisplay(trip.originPlace)}} </div>\r\n        <mat-icon color=\"accent\" class=\"arrow-right-icon\">arrow_right_alt</mat-icon>\r\n        <div class=\"country-name\">{{trip.destinationPlace.countryName}}</div>\r\n        <div class=\"place-display\"> {{dataDisplayService.getPlaceDisplay(trip.destinationPlace)}}</div>\r\n        <div class=\"trips-dates-display\">\r\n            {{dataDisplayService.getDateRangeDispaly(trip.outboundDate, trip.inboundDate)}}\r\n        </div>\r\n    </mat-card-header>\r\n    <div class=\"card-content\">\r\n        <div class=\"accordion-container\">\r\n            <mat-accordion>\r\n                <mat-expansion-panel class=\"flight-option\">\r\n                    <mat-expansion-panel-header>\r\n                        <app-flight-option-header class=\"flight-option-header\" [flightOption]=\"trip.outbound\"\r\n                            [isOutbound]=\"true\"></app-flight-option-header>\r\n                    </mat-expansion-panel-header>\r\n                    <app-flight-option-details [flightOption]=\"trip.outbound\"></app-flight-option-details>\r\n                </mat-expansion-panel>\r\n                <mat-expansion-panel class=\"flight-option\" *ngIf=\"trip.inbound\">\r\n                    <mat-expansion-panel-header>\r\n                        <app-flight-option-header class=\"flight-option-header\" [flightOption]=\"trip.inbound\"\r\n                            [isOutbound]=\"false\"></app-flight-option-header>\r\n                    </mat-expansion-panel-header>\r\n                    <app-flight-option-details [flightOption]=\"trip.inbound\"></app-flight-option-details>\r\n                </mat-expansion-panel>\r\n            </mat-accordion>\r\n        </div>\r\n        <div class=\"select-price-container\">\r\n            <div color=\"accent\">{{trip.Price}}$</div>\r\n            <button mat-raised-button color=\"primary\">Select\r\n                <mat-icon>done</mat-icon>\r\n            </button>\r\n        </div>\r\n    </div>\r\n</mat-card>"
 
 /***/ }),
 
@@ -411,7 +411,9 @@ var FormatServerResultService = /** @class */ (function () {
     FormatServerResultService.prototype.getTripsFromServerResult = function (results) {
         var _this = this;
         results.forEach(function (trip) {
-            trip.lowestPriceAgent = {'price':trip.Price};
+            trip.originPlace = JSON.parse(trip.originPlace);
+            trip.destinationPlace = JSON.parse(trip.destinationPlace);
+            trip.lowestPriceAgent = { 'price': trip.Price };
             trip.outbound.arrive = _this.setDateValue(trip.outbound.arrive);
             trip.outbound.departure = _this.setDateValue(trip.outbound.departure);
             trip.outbound.daysDiff = _this.dataDisplayService.getDatesDiffreceInDays(trip.outbound.departure, trip.outbound.arrive);
@@ -563,7 +565,7 @@ module.exports = "@media (max-width: 767px) {\r\n  /* On small screens, the nav 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<body>\r\n  <mat-toolbar color=\"primary\">\r\n    <div class=\"logo-img\"></div>\r\n    <span class=\"toolbar-spacer\"></span>\r\n  </mat-toolbar>\r\n  <app-search-flights></app-search-flights>\r\n</body>\r\n"
+module.exports = "<body>\r\n  <mat-toolbar color=\"primary\">\r\n    <div class=\"logo-img\"></div>\r\n    <span class=\"toolbar-spacer\"></span>\r\n    <button *ngIf=\"readLocalStorageValue('user')\" (click)=\"Logout()\">Logout</button>\r\n  </mat-toolbar>\r\n  <app-search-flights *ngIf=\"readLocalStorageValue('user')\"></app-search-flights>\r\n  <app-user *ngIf=\"!readLocalStorageValue('user') && (readLocalStorageValue('register')==='false' || !readLocalStorageValue('register'))\"></app-user>\r\n  <app-register *ngIf=\"!readLocalStorageValue('user') && readLocalStorageValue('register')==='true'\"></app-register>\r\n</body>\r\n"
 
 /***/ }),
 
@@ -589,6 +591,12 @@ var AppComponent = /** @class */ (function () {
     function AppComponent() {
         this.title = 'app';
     }
+    AppComponent.prototype.readLocalStorageValue = function (key) {
+        return localStorage.getItem(key);
+    };
+    AppComponent.prototype.Logout = function () {
+        localStorage.removeItem('user');
+    };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
@@ -622,23 +630,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var saturn_datepicker__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! saturn-datepicker */ "./node_modules/saturn-datepicker/fesm5/saturn-datepicker.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _searchFlights_searchFlights_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./searchFlights/searchFlights.component */ "./src/app/searchFlights/searchFlights.component.ts");
-/* harmony import */ var _flightsResults_flightsResults_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./flightsResults/flightsResults.component */ "./src/app/flightsResults/flightsResults.component.ts");
-/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _Utils_dataDisplay_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Utils/dataDisplay.service */ "./src/app/Utils/dataDisplay.service.ts");
-/* harmony import */ var _flight_flight_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./flight/flight.component */ "./src/app/flight/flight.component.ts");
-/* harmony import */ var _Trip_trip_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Trip/trip.component */ "./src/app/Trip/trip.component.ts");
-/* harmony import */ var _flightOption_flightOptionHeader_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./flightOption/flightOptionHeader.component */ "./src/app/flightOption/flightOptionHeader.component.ts");
-/* harmony import */ var _errorMessage_errorMessage_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./errorMessage/errorMessage.component */ "./src/app/errorMessage/errorMessage.component.ts");
-/* harmony import */ var _noResultsMessage_noResultsMessage_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./noResultsMessage/noResultsMessage.component */ "./src/app/noResultsMessage/noResultsMessage.component.ts");
-/* harmony import */ var _Utils_smartFlightsFilter_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Utils/smartFlightsFilter.service */ "./src/app/Utils/smartFlightsFilter.service.ts");
-/* harmony import */ var _loadingBar_loadingBar_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./loadingBar/loadingBar.component */ "./src/app/loadingBar/loadingBar.component.ts");
-/* harmony import */ var _flightOption_flightOptionDetails_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./flightOption/flightOptionDetails.component */ "./src/app/flightOption/flightOptionDetails.component.ts");
-/* harmony import */ var _daysOffDialog_daysOffDialog_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./daysOffDialog/daysOffDialog.component */ "./src/app/daysOffDialog/daysOffDialog.component.ts");
-/* harmony import */ var _Utils_formatServerResult_service__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Utils/formatServerResult.service */ "./src/app/Utils/formatServerResult.service.ts");
-/* harmony import */ var _Utils_filterTrips_Service__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Utils/filterTrips.Service */ "./src/app/Utils/filterTrips.Service.ts");
-/* harmony import */ var _Utils_daysOffUtils_service__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Utils/daysOffUtils.service */ "./src/app/Utils/daysOffUtils.service.ts");
+/* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
+/* harmony import */ var _user_register_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user/register.component */ "./src/app/user/register.component.ts");
+/* harmony import */ var _flightsResults_flightsResults_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./flightsResults/flightsResults.component */ "./src/app/flightsResults/flightsResults.component.ts");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _Utils_dataDisplay_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Utils/dataDisplay.service */ "./src/app/Utils/dataDisplay.service.ts");
+/* harmony import */ var _flight_flight_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./flight/flight.component */ "./src/app/flight/flight.component.ts");
+/* harmony import */ var _Trip_trip_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Trip/trip.component */ "./src/app/Trip/trip.component.ts");
+/* harmony import */ var _flightOption_flightOptionHeader_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./flightOption/flightOptionHeader.component */ "./src/app/flightOption/flightOptionHeader.component.ts");
+/* harmony import */ var _errorMessage_errorMessage_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./errorMessage/errorMessage.component */ "./src/app/errorMessage/errorMessage.component.ts");
+/* harmony import */ var _noResultsMessage_noResultsMessage_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./noResultsMessage/noResultsMessage.component */ "./src/app/noResultsMessage/noResultsMessage.component.ts");
+/* harmony import */ var _Utils_smartFlightsFilter_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Utils/smartFlightsFilter.service */ "./src/app/Utils/smartFlightsFilter.service.ts");
+/* harmony import */ var _loadingBar_loadingBar_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./loadingBar/loadingBar.component */ "./src/app/loadingBar/loadingBar.component.ts");
+/* harmony import */ var _flightOption_flightOptionDetails_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./flightOption/flightOptionDetails.component */ "./src/app/flightOption/flightOptionDetails.component.ts");
+/* harmony import */ var _daysOffDialog_daysOffDialog_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./daysOffDialog/daysOffDialog.component */ "./src/app/daysOffDialog/daysOffDialog.component.ts");
+/* harmony import */ var _Utils_formatServerResult_service__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Utils/formatServerResult.service */ "./src/app/Utils/formatServerResult.service.ts");
+/* harmony import */ var _Utils_filterTrips_Service__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./Utils/filterTrips.Service */ "./src/app/Utils/filterTrips.Service.ts");
+/* harmony import */ var _Utils_daysOffUtils_service__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./Utils/daysOffUtils.service */ "./src/app/Utils/daysOffUtils.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -670,25 +680,27 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 var AngularMaterialModule = /** @class */ (function () {
     function AngularMaterialModule() {
     }
     AngularMaterialModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-            imports: [_angular_material__WEBPACK_IMPORTED_MODULE_11__["MatToolbarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatTabsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatIconModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatInputModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatFormFieldModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatAutocompleteModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatButtonModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatNativeDateModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatDatepickerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatRadioModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatCardModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatGridListModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatDividerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatExpansionModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatProgressSpinnerModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatProgressBarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatSelectModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatButtonToggleModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatDialogModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatCheckboxModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatSliderModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatTooltipModule"]],
-            exports: [_angular_material__WEBPACK_IMPORTED_MODULE_11__["MatToolbarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatTabsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatIconModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatInputModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatFormFieldModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatAutocompleteModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatButtonModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatNativeDateModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatDatepickerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatRadioModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatCardModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatGridListModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatDividerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatExpansionModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatProgressSpinnerModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatProgressBarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatSelectModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatButtonToggleModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatDialogModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatCheckboxModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatSliderModule"], _angular_material__WEBPACK_IMPORTED_MODULE_11__["MatTooltipModule"]],
+            imports: [_angular_material__WEBPACK_IMPORTED_MODULE_13__["MatToolbarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatTabsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatIconModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatInputModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatFormFieldModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatAutocompleteModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatButtonModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatNativeDateModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatDatepickerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatRadioModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatGridListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatDividerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatExpansionModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatProgressSpinnerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatProgressBarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatSelectModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatButtonToggleModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatDialogModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatCheckboxModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatSliderModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatTooltipModule"]],
+            exports: [_angular_material__WEBPACK_IMPORTED_MODULE_13__["MatToolbarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatTabsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatIconModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatInputModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatFormFieldModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatAutocompleteModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatButtonModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatNativeDateModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatDatepickerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatRadioModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatGridListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatDividerModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatExpansionModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatProgressSpinnerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatProgressBarModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatSelectModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatButtonToggleModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatDialogModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatCheckboxModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatSliderModule"], _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatTooltipModule"]],
         })
     ], AngularMaterialModule);
     return AngularMaterialModule;
@@ -702,32 +714,34 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
                 _searchFlights_searchFlights_component__WEBPACK_IMPORTED_MODULE_7__["SearchFlightsComponent"],
-                _flightsResults_flightsResults_component__WEBPACK_IMPORTED_MODULE_8__["FlightsResultsComponent"],
-                _Trip_trip_component__WEBPACK_IMPORTED_MODULE_14__["TripComponent"],
-                _flight_flight_component__WEBPACK_IMPORTED_MODULE_13__["FlightComponent"],
-                _flightOption_flightOptionHeader_component__WEBPACK_IMPORTED_MODULE_15__["FlightOptionHeaderComponent"],
-                _errorMessage_errorMessage_component__WEBPACK_IMPORTED_MODULE_16__["ErrorMessageComponent"],
-                _noResultsMessage_noResultsMessage_component__WEBPACK_IMPORTED_MODULE_17__["NoResultsMessageComponent"],
-                _loadingBar_loadingBar_component__WEBPACK_IMPORTED_MODULE_19__["LoadingBarComponent"],
-                _flightOption_flightOptionDetails_component__WEBPACK_IMPORTED_MODULE_20__["FlightOptionDetailsComponent"],
-                _daysOffDialog_daysOffDialog_component__WEBPACK_IMPORTED_MODULE_21__["DaysOffDialogComponent"],
-                _home_home_component__WEBPACK_IMPORTED_MODULE_9__["HomeComponent"]
+                _user_user_component__WEBPACK_IMPORTED_MODULE_8__["UserComponent"],
+                _user_register_component__WEBPACK_IMPORTED_MODULE_9__["RegisterComponent"],
+                _flightsResults_flightsResults_component__WEBPACK_IMPORTED_MODULE_10__["FlightsResultsComponent"],
+                _Trip_trip_component__WEBPACK_IMPORTED_MODULE_16__["TripComponent"],
+                _flight_flight_component__WEBPACK_IMPORTED_MODULE_15__["FlightComponent"],
+                _flightOption_flightOptionHeader_component__WEBPACK_IMPORTED_MODULE_17__["FlightOptionHeaderComponent"],
+                _errorMessage_errorMessage_component__WEBPACK_IMPORTED_MODULE_18__["ErrorMessageComponent"],
+                _noResultsMessage_noResultsMessage_component__WEBPACK_IMPORTED_MODULE_19__["NoResultsMessageComponent"],
+                _loadingBar_loadingBar_component__WEBPACK_IMPORTED_MODULE_21__["LoadingBarComponent"],
+                _flightOption_flightOptionDetails_component__WEBPACK_IMPORTED_MODULE_22__["FlightOptionDetailsComponent"],
+                _daysOffDialog_daysOffDialog_component__WEBPACK_IMPORTED_MODULE_23__["DaysOffDialogComponent"],
+                _home_home_component__WEBPACK_IMPORTED_MODULE_11__["HomeComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"].withServerTransition({ appId: 'ng-cli-universal' }),
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_10__["BrowserAnimationsModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_12__["BrowserAnimationsModule"],
                 saturn_datepicker__WEBPACK_IMPORTED_MODULE_5__["SatDatepickerModule"],
                 saturn_datepicker__WEBPACK_IMPORTED_MODULE_5__["SatNativeDateModule"],
                 _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forRoot([
-                    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_9__["HomeComponent"], pathMatch: 'full' }
+                    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_11__["HomeComponent"], pathMatch: 'full' }
                 ]),
                 AngularMaterialModule
             ],
-            entryComponents: [_daysOffDialog_daysOffDialog_component__WEBPACK_IMPORTED_MODULE_21__["DaysOffDialogComponent"]],
-            providers: [_Utils_dataDisplay_service__WEBPACK_IMPORTED_MODULE_12__["DataDisplayService"], _Utils_smartFlightsFilter_service__WEBPACK_IMPORTED_MODULE_18__["SmartFlightsFilterService"],
-                _Utils_formatServerResult_service__WEBPACK_IMPORTED_MODULE_22__["FormatServerResultService"], _Utils_filterTrips_Service__WEBPACK_IMPORTED_MODULE_23__["FilterTripsService"], _Utils_daysOffUtils_service__WEBPACK_IMPORTED_MODULE_24__["DaysOffUtilsService"]],
+            entryComponents: [_daysOffDialog_daysOffDialog_component__WEBPACK_IMPORTED_MODULE_23__["DaysOffDialogComponent"]],
+            providers: [_Utils_dataDisplay_service__WEBPACK_IMPORTED_MODULE_14__["DataDisplayService"], _Utils_smartFlightsFilter_service__WEBPACK_IMPORTED_MODULE_20__["SmartFlightsFilterService"],
+                _Utils_formatServerResult_service__WEBPACK_IMPORTED_MODULE_24__["FormatServerResultService"], _Utils_filterTrips_Service__WEBPACK_IMPORTED_MODULE_25__["FilterTripsService"], _Utils_daysOffUtils_service__WEBPACK_IMPORTED_MODULE_26__["DaysOffUtilsService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
         })
     ], AppModule);
@@ -943,7 +957,7 @@ var FlightComponent = /** @class */ (function () {
         this.dataDisplayService = dataDisplayService;
     }
     FlightComponent.prototype.displayFn = function (place) {
-        return place ? place.placeName + ' (' + place.airportId + ')' : place;
+        return place ? place.name + ' (' + place.cityId + ')' : place;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -1558,7 +1572,8 @@ var SearchFlightsComponent = /** @class */ (function () {
     SearchFlightsComponent.prototype.getFlightPlacesFromServer = function (val) {
         if (val && val.length >= this.minAutocompliteLength) {
             var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('query', val);
-            return this.http.get(this.baseUrl + 'api/SkyScanner/GetPlaces', { params: params });
+            // return this.http.get<any[]>(this.baseUrl + 'api/SkyScanner/GetPlaces', { params: params });
+            return this.http.get('http://localhost:8000/' + 'api/AmadeusController/GetPlaces', { params: params });
         }
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["of"])([]);
     };
@@ -1606,14 +1621,15 @@ var SearchFlightsComponent = /** @class */ (function () {
         }
         departureDate = this.addHoursToDate(departureDate, 3);
         returnDate = this.addHoursToDate(returnDate, 3);
-        var param = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
+        var body = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .append('outboundDate', departureDate ? departureDate.toISOString() : null)
             .append('inboundDate', returnDate ? returnDate.toISOString() : null)
             .append('originPlace', JSON.stringify(this.whereFrom.value))
             .append('destinationPlace', JSON.stringify(this.whereTo.value))
             .append('people', this.numberOfPassengers.toString())
             .append('oneWay', this.isOneWay().toString());
-        return this.http.post(this.baseUrl + 'api/SkyScanner/flights', param);
+        //return this.http.post<any[]>(this.baseUrl + 'api/SkyScanner/flights', param);
+        return this.http.post('http://localhost:8000/' + 'api/AmadeusController/GetFlights', body);
     };
     SearchFlightsComponent.prototype.onError = function (error) {
         this.setCurrentState(_enums_searchState__WEBPACK_IMPORTED_MODULE_7__["searchState"].error);
@@ -1768,6 +1784,218 @@ var SearchFlightsComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/user/register.component.html":
+/*!**********************************************!*\
+  !*** ./src/app/user/register.component.html ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page\">\r\n    <mat-card class=\"form-card\">\r\n        <div class=\"text-center\">\r\n        <h4 class=\"card-header\">Register</h4>\r\n        <div class=\"card-body\">\r\n            <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit()\">\r\n                <div class=\"form-group\">\r\n                    <label for=\"firstName\">First Name</label>\r\n                    <input type=\"text\" formControlName=\"firstName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\" />\r\n                    <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"lastName\">Last Name</label>\r\n                    <input type=\"text\" formControlName=\"lastName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\" />\r\n                    <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"email\">Email</label>\r\n                    <input type=\"text\" formControlName=\"email\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\" />\r\n                    <div *ngIf=\"submitted && f.email.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.email.errors.required\">Email is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"password\">Password</label>\r\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\r\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n                        <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">\r\n                        <span *ngIf=\"loading\" class=\"spinner-border spinner-border-sm mr-1\"></span>\r\n                        Register\r\n                    </button>\r\n                    <a (click)=\"cancel()\" class=\"btn btn-link\">Cancel</a>\r\n                </div>\r\n                <mat-error *ngIf=\"errorMsg !== ''\">\r\n                        {{errorMsg}}\r\n                      </mat-error>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</mat-card>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/user/register.component.scss":
+/*!**********************************************!*\
+  !*** ./src/app/user/register.component.scss ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".text-center {\n  text-align: center; }\n\n.example-container {\n  height: 50%;\n  width: 20%;\n  text-align: left; }\n\n.d-flex-center {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.mat-form-field {\n  width: 100%; }\n\n.mt-top {\n  margin-top: 30px; }\n\n.mt-top-2 {\n  margin-top: 10px; }\n"
+
+/***/ }),
+
+/***/ "./src/app/user/register.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/user/register.component.ts ***!
+  \********************************************/
+/*! exports provided: RegisterComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterComponent", function() { return RegisterComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var RegisterComponent = /** @class */ (function () {
+    function RegisterComponent(http, formBuilder) {
+        this.http = http;
+        this.formBuilder = formBuilder;
+        this.loading = false;
+        this.submitted = false;
+    }
+    RegisterComponent.prototype.cancel = function () {
+        localStorage.setItem('register', "false");
+    };
+    RegisterComponent.prototype.ngOnInit = function () {
+        this.form = this.formBuilder.group({
+            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
+            password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].minLength(6)]]
+        });
+    };
+    Object.defineProperty(RegisterComponent.prototype, "f", {
+        // convenience getter for easy access to form fields
+        get: function () { return this.form.controls; },
+        enumerable: true,
+        configurable: true
+    });
+    RegisterComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.submitted = true;
+        // reset alerts on submit
+        // stop here if form is invalid
+        if (this.form.invalid) {
+            return;
+        }
+        this.loading = true;
+        this.registerUser(this.form.value.email, this.form.value.password, this.form.value.firstName, this.form.value.lastName).subscribe(function (re) {
+            _this.validUser = re;
+            if (_this.validUser) {
+                localStorage.setItem('user', _this.form.value);
+                _this.errorMsg = "";
+            }
+            else {
+                _this.loading = false;
+                _this.errorMsg = "somthing went wrong";
+            }
+        });
+    };
+    RegisterComponent.prototype.registerUser = function (email, pass, firstName, surName) {
+        var body = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
+            .append('firstName', firstName)
+            .append('surName', surName)
+            .append('email', email)
+            .append('pass', pass);
+        return this.http.post('http://localhost:8000/' + 'api/AmadeusController/RegisterUser', body);
+    };
+    RegisterComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-register',
+            template: __webpack_require__(/*! ./register.component.html */ "./src/app/user/register.component.html"),
+            styles: [__webpack_require__(/*! ./register.component.scss */ "./src/app/user/register.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]])
+    ], RegisterComponent);
+    return RegisterComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/user/user.component.html":
+/*!******************************************!*\
+  !*** ./src/app/user/user.component.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page\">\r\n  <mat-card class=\"form-card\">\r\n      <div class=\"text-center\">\r\n          <h4 class=\"text-center\"> Login </h4>\r\n          <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\" novalidate class=\"d-flex-center\">\r\n            <div class=\"example-container\">\r\n              <div>\r\n                <mat-form-field>\r\n                  <input matInput placeholder=\"Email\" formControlName=\"email\">\r\n                  <mat-error *ngIf=\"!loginForm.get('email')?.errors?.required && (loginForm.get('email')?.errors?.pattern)\">\r\n                    Please enter a valid email address\r\n                  </mat-error>\r\n                  <mat-error *ngIf=\"loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched) && loginForm.get('email')?.errors?.required\">\r\n                    Email is required\r\n                  </mat-error>\r\n                </mat-form-field>\r\n              </div>\r\n              <div class=\"mt-top-2\">\r\n                <mat-form-field>\r\n                  <input matInput type=\"password\" placeholder=\"Password\" formControlName=\"password\">    \r\n                  <mat-error *ngIf=\"!loginForm.get('password')?.errors?.required\">\r\n                    Password length must be greater than or equal to 8 and password must contain one or more uppercase , lowercase , numeric and special characters\r\n                  </mat-error>\r\n                  <mat-error *ngIf=\"loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched) && loginForm.get('password')?.errors?.required\">\r\n                    Password is required\r\n                  </mat-error>\r\n                </mat-form-field>\r\n              </div>\r\n              <div class=\"mt-top\">\r\n                <button [disabled]=\"!loginForm.valid\" mat-raised-button color=\"primary\" mat-button>Sign In</button>\r\n                \r\n              <a (click)=\"moveToRegister()\" class=\"btn btn-link\">Register</a>\r\n              </div>\r\n              <mat-error *ngIf=\"errorMsg !== ''\">\r\n                  {{errorMsg}}\r\n                </mat-error>\r\n            </div>\r\n          </form>\r\n        </div>\r\n  </mat-card>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/user/user.component.scss":
+/*!******************************************!*\
+  !*** ./src/app/user/user.component.scss ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".text-center {\n  text-align: center; }\n\n.example-container {\n  height: 50%;\n  width: 20%;\n  text-align: left; }\n\n.d-flex-center {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.mat-form-field {\n  width: 100%; }\n\n.mt-top {\n  margin-top: 30px; }\n\n.mt-top-2 {\n  margin-top: 10px; }\n"
+
+/***/ }),
+
+/***/ "./src/app/user/user.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/user/user.component.ts ***!
+  \****************************************/
+/*! exports provided: UserComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserComponent", function() { return UserComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UserComponent = /** @class */ (function () {
+    function UserComponent(http) {
+        this.http = http;
+        this.title = 'material-login';
+        this.loginForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
+            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].email, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,63}$'),]),
+            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$')])
+        });
+    }
+    UserComponent.prototype.moveToRegister = function () {
+        localStorage.setItem('register', "true");
+    };
+    UserComponent.prototype.onSubmit = function () {
+        var _this = this;
+        if (this.loginForm.valid) {
+            this.validateUser(this.loginForm.value.email, this.loginForm.value.password).subscribe(function (re) {
+                _this.validUser = re;
+                if (_this.validUser) {
+                    localStorage.setItem('user', _this.loginForm.value);
+                    _this.errorMsg = "";
+                }
+                else {
+                    _this.errorMsg = "email or password is incorrect";
+                }
+            });
+            return;
+        }
+    };
+    UserComponent.prototype.validateUser = function (email, pass) {
+        var body = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
+            .append('email', email)
+            .append('pass', pass);
+        return this.http.post('http://localhost:8000/' + 'api/AmadeusController/ValidateUser', body);
+    };
+    UserComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-user',
+            template: __webpack_require__(/*! ./user.component.html */ "./src/app/user/user.component.html"),
+            styles: [__webpack_require__(/*! ./user.component.scss */ "./src/app/user/user.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], UserComponent);
+    return UserComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/environments/environment.ts":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -1838,7 +2066,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\אביב\Source\Repos\FlightsFinder\ClientApp\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\Projects\Client22\src\main.ts */"./src/main.ts");
 
 
 /***/ })

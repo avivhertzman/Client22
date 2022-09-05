@@ -5473,7 +5473,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\אביב\Source\Repos\FlightsFinder\ClientApp\src\polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! D:\Projects\Client22\src\polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })
