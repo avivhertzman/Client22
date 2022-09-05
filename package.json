@@ -1,11 +1,16 @@
 {
   "name": "com.example.client.app",
+  "displayName": "FlightsFinder",
   "version": "0.0.0",
+  "main": "index.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build-android": "cordova build android",
+    "run-android": "cordova emulate android",
+    "get-android-ready": "npm run build && cordova platform rm android && cordova platform add android && npm run build-android",
+    "android": "npm run get-android-ready && npm run run-android",
     "build:ssr": "ng run FlightsFinder:server:dev",
     "test": "ng test",
     "lint": "ng lint",
@@ -64,6 +69,9 @@
   "cordova": {
     "platforms": [
       "android"
-    ]
+    ],
+    "plugins": {
+      "cordova-plugin-file": {}
+    }
   }
 }
