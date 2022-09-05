@@ -34,6 +34,11 @@ Run the following:
 ```
 npm i -g cordova
 ```
+## Installing project dependencies
+Run the following:
+```
+npm i
+```
 ## Settings up Android SDK's
 ### Setting up Java JDK
 In order for the Cordova framwork to work properly, we need to install `Java JDK 8 (1.8)` and set the `JAVA_HOME` environment variable to it's directory.
