@@ -1,4 +1,13 @@
 <div class="main-page">
+  <mat-expansion-panel (opened)="true" (closed)="false" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+      </mat-panel-title>
+      <mat-panel-description>
+        search for flight
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  
   <mat-card class="form-card">
     <div class="form-container">
       <div class="form-first-row">
@@ -110,7 +119,23 @@
       </form>
     </div>
   </mat-card>
+</mat-expansion-panel>
+<app-loading-bar *ngIf="currentSearchState === searchStatesEnum.loading" [message]="loadingMessage"
+        [value]="loadingProgress"></app-loading-bar>
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+    </mat-panel-title>
+    <mat-panel-description>
+      filter by
+    </mat-panel-description>
+  </mat-expansion-panel-header>
   <div *ngIf="currentSearchState === searchStatesEnum.succsses" class="slider-container">
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+         filter by
+        </mat-panel-description>
+      </mat-expansion-panel-header>
     <span>Speed</span>
     <mat-slider class="slider-display" [max]="maxSliderValue" [min]="minSliderValue" [(ngModel)]="sliderValue" #mySlider
       (slideend)="onSliderInputChange(mySlider.value)" (pointerup)="onSliderInputChange(mySlider.value)">
@@ -196,16 +221,27 @@
         </div>
       </mat-expansion-panel>
     </div>
+  </div>
+</mat-expansion-panel>
     <div class="space-div" *ngIf="currentSearchState != searchStatesEnum.succsses"></div>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+        </mat-panel-title>
+        <mat-panel-description>
+          results
+        </mat-panel-description>
+      </mat-expansion-panel-header>
     <mat-card class="results-container" *ngIf="currentSearchState !== searchStatesEnum.empty">
+      
       <app-error-message *ngIf="currentSearchState === searchStatesEnum.error"></app-error-message>
       <app-no-results-message *ngIf="currentSearchState === searchStatesEnum.noResults">
       </app-no-results-message>
-      <app-loading-bar *ngIf="currentSearchState === searchStatesEnum.loading" [message]="loadingMessage"
-        [value]="loadingProgress"></app-loading-bar>
+      
       <div *ngIf="currentSearchState === searchStatesEnum.succsses" class="trips-options">
         <app-flights-results [flightsResults]="filteredTripOptions"></app-flights-results>
       </div>
     </mat-card>
-  </div>
+  </mat-expansion-panel>
+
 </div>

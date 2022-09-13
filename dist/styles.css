@@ -1547,9 +1547,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 .main-page .passengers-select {
     width: 70px; }
 .main-page .form-card {
-    width: 850px;
-    margin-bottom: 20px;
-    margin-left: 200px; }
+    margin-bottom: 20px; }
 .main-page .form-card .form-container .search-form {
       margin-bottom: 5px; }
 .main-page .form-card .form-container .date-picker-field {
@@ -1642,6 +1640,20 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   color: gray; }
 .example-tooltip-red {
   background: #b71c1c; }
+.example-container[_ngcontent-c3] {
+  min-width: 50%; }
+form {
+  height: 800px; }
+.mt-top {
+  margin-top: 50px; }
+.mt-top-2[_ngcontent-c3] {
+  margin-bottom: 72px; }
+.form-fields[_ngcontent-c2] {
+  flex-direction: column; }
+mat-radio-group {
+  width: 98px; }
+.search-by-container[_ngcontent-c2] {
+  margin-right: 115px; }
 /**
  * Applies styles for users in high contrast mode. Note that this only applies
  * to Microsoft browsers. Chrome can be included by checking for the `html[hc]`
