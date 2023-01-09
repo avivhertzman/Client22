@@ -1,6 +1,9 @@
 {
-  "name": "FlightsFinder",
-  "version": "0.0.0",
+  "name": "com.aviv",
+  "displayName": "avivproj",
+  "version": "1.0.0",
+  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "main": "index.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,9 +11,15 @@
     "build:ssr": "ng run FlightsFinder:server:dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
   "private": true,
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
   "dependencies": {
     "@angular/animations": "^6.1.10",
     "@angular/cdk": "^7.3.0",
@@ -47,7 +56,14 @@
     "karma-coverage-istanbul-reporter": "~3.0.3",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
-    "typescript": "~2.7.2"
+    "typescript": "~2.7.2",
+    "cordova-android": "^10.1.2"
+
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
   },
   "optionalDependencies": {
     "node-sass": "^7.0.1",
